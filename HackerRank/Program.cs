@@ -5,72 +5,45 @@ using System.Collections.Generic;
 
 namespace HackerRank
 {
-	class MainClass//CuttingBoard
+	class MainClass//Grid Challenge
 	{
 		public static void Main (string [] args)
 		{
-			Int64 modulus = (Int64)Math.Pow (10, 9) + 7;
 			int numQueries = int.Parse (Console.ReadLine ());
 			for (int i = 0; i < numQueries; i++) 
 			{
-				string [] temp = Console.ReadLine ().Split (' ');
-				Int64 height = Int64.Parse (temp [0]);
-				Int64 width = Int64.Parse (temp [1]);
-
-				temp = Console.ReadLine ().Split (' ');
-				Int64 [] tempCost = Array.ConvertAll (temp, Int64.Parse);
-				List<Int64> yCutCost = new List<Int64> ();
-				yCutCost.AddRange (tempCost);
-				yCutCost.Sort ();
-				yCutCost.Reverse ();
-
-				temp = Console.ReadLine ().Split (' ');
-				tempCost = Array.ConvertAll (temp, Int64.Parse);
-				List<Int64> xCutCost = new List<Int64> ();
-				xCutCost.AddRange (tempCost);
-				xCutCost.Sort ();
-				xCutCost.Reverse ();
-
-				Int64 totalCuts = height + width - 2;
-				Int64 xSegments = 1, ySegments = 1;
-				Int64 totalCost = 0;
-				int xIndex = 0;
-				int yIndex = 0;
-
-				while (totalCuts > 0) 
+				int gridSize = Int32.Parse (Console.ReadLine ());
+				string [,] Grid = new string [gridSize, gridSize];
+				string [] temp;
+				for (int n = 0; n < gridSize; n++) 
 				{
-					if (xIndex == height - 1)
+					string holding = Console.ReadLine();
+					temp = holding.Select (x => x.ToString ()).ToArray ();
+					Array.Sort (temp);
+					for (int x = 0; x < gridSize; x++) 
 					{
-						totalCost += (yCutCost [yIndex] * xSegments)% modulus;
-						ySegments++;
-						yIndex++;
+						Grid [x, n] = temp [x];
 					}
-					else if(yIndex == width - 1)
-					{
-						totalCost += (xCutCost [xIndex] * ySegments)% modulus;
-						xSegments++;
-						xIndex++;
-					}
-					else if (xCutCost [xIndex] >= yCutCost [yIndex]) 
-					{
-						totalCost += (xCutCost [xIndex] * ySegments)% modulus;
-						xSegments++;
-						xIndex++;
-					} 
-					else 
-					{
-						totalCost += (yCutCost [yIndex] * xSegments)% modulus;
-						ySegments++;
-						yIndex++;
-					}
-					totalCuts--;
 				}
-				Console.WriteLine (totalCost% modulus);
+				checkOrder (Grid, gridSize);
 			}
+		}
+		static void checkOrder(string[,] checkMe, int size)
+		{
+			for (int columb = 0; columb < size; columb++) 
+			{
+				for (int row = 0; row < size - 1; row++) 
+				{
+					if (string.Compare (checkMe [columb, row], checkMe [columb, row + 1]) > 0) 
+					{
+						// String.Compare returns 0 if equal, neg if A < B, and pos if A > B
+						Console.WriteLine ("NO");
+						return;
+					}
+				}
+			}
+			Console.WriteLine ("YES");
+			return;
 		}
 	}
 }
-
-// Not adding up right. Check modulo
-
- 
