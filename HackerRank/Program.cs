@@ -9,41 +9,23 @@ namespace HackerRank
 	{
 		public static void Main (string [] args)
 		{
-			int numQueries = int.Parse (Console.ReadLine ());
-			for (int i = 0; i < numQueries; i++) 
-			{
-				int gridSize = Int32.Parse (Console.ReadLine ());
-				string [,] Grid = new string [gridSize, gridSize];
-				string [] temp;
-				for (int n = 0; n < gridSize; n++) 
-				{
-					string holding = Console.ReadLine();
-					temp = holding.Select (x => x.ToString ()).ToArray ();
-					Array.Sort (temp);
-					for (int x = 0; x < gridSize; x++) 
-					{
-						Grid [x, n] = temp [x];
-					}
-				}
-				checkOrder (Grid, gridSize);
-			}
-		}
-		static void checkOrder(string[,] checkMe, int size)
-		{
-			for (int columb = 0; columb < size; columb++) 
-			{
-				for (int row = 0; row < size - 1; row++) 
-				{
-					if (string.Compare (checkMe [columb, row], checkMe [columb, row + 1]) > 0) 
-					{
-						// String.Compare returns 0 if equal, neg if A < B, and pos if A > B
-						Console.WriteLine ("NO");
-						return;
-					}
+			string [] h_temp = Console.ReadLine ().Split (' ');// Load height values of the alphabet
+			int [] h = Array.ConvertAll (h_temp, Int32.Parse);// convert them to int
+			string word = Console.ReadLine ();// get the word to enclose in a box
+			char [] letters = word.ToCharArray ();// convert the string to a char array
+
+			// Find the tallest letter
+			int maxHeight = 0;
+			for (int x = 0; x < letters.Length; x++) {
+				int thisHeight = h [char.ToUpper (letters [x]) - 64 - 1];
+				// int anotherWay = h[((int)letters [x] % 32) - 1];
+				if (maxHeight < thisHeight) {
+					maxHeight = thisHeight;
 				}
 			}
-			Console.WriteLine ("YES");
-			return;
-		}
+
+			// Multiply maxHeight times length of the word
+			int areaToHilight = word.Length * maxHeight;
+			Console.WriteLine (areaToHilight);
 	}
 }
