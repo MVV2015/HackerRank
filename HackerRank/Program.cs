@@ -4,49 +4,30 @@ using System.Collections.Generic;
 
 namespace HackerRank
 {
-	class MainClass
+	class MainClass //Designer PDF Viewer
 	{
 		public static void Main (string [] args)
 		{
-			int numQueries = int.Parse (Console.ReadLine ());
-			for (int i = 0; i < numQueries; i++)
+			string [] h_temp = Console.ReadLine ().Split (' ');// Load height values of the alphabet
+			int [] h = Array.ConvertAll (h_temp, Int32.Parse);// convert them to int
+			string word = Console.ReadLine ();// get the word to enclose in a box
+			char [] letters = word.ToCharArray ();// convert the string to a char array
+
+			// Find the tallest letter
+			int maxHeight = 0;
+			for (int x = 0; x < letters.Length; x++)
 			{
-				string [] temp = Console.ReadLine ().Split (' ');
-				//int n = Int32.Parse (temp [0]);
-				int testSum = Int32.Parse (temp [1]);
-				temp = Console.ReadLine ().Split (' ');
-				int [] aArray = Array.ConvertAll (temp, Int32.Parse);
-				temp = Console.ReadLine ().Split (' ');
-				int [] bArray = Array.ConvertAll (temp, Int32.Parse);
-
-				Premute (aArray, bArray, testSum);
-
-				//temp = Console.ReadLine ().Split (' ');
-				//int testSum2 = Int32.Parse (temp [1]);
-				//temp = Console.ReadLine ().Split (' ');
-				//int [] cArray = Array.ConvertAll (temp, Int32.Parse);
-				//temp = Console.ReadLine ().Split (' ');
-				//int [] dArray = Array.ConvertAll (temp, Int32.Parse);
-
-				//Premute (cArray, dArray, testSum2);
-			}
-		}
-
-		static void Premute(int[] arr1, int[] arr2, int test)
-		{
-			Array.Sort (arr1);
-			Array.Sort (arr2);
-			Array.Reverse (arr2);
-
-			for (int x = 0; x < arr1.Length; x++) 
-			{
-				if ((arr1 [x] + arr2 [x]) < test) 
+				int thisHeight = h[char.ToUpper (letters [x])-64 - 1];
+				int anotherWay = h[((int)letters [x] % 32) - 1];
+				if (maxHeight< thisHeight)
 				{
-					Console.WriteLine ("NO");
-					return;
+					maxHeight = thisHeight;
 				}
 			}
-			Console.WriteLine ("YES");
+
+			// Multiply hieght times length of the word
+			int areaToHilight = word.Length * maxHeight;
+			Console.WriteLine (areaToHilight);
 		}
 	}
 }
