@@ -3,26 +3,36 @@
 
 namespace HackerRank
 {
-	class MainClass //Kangaroo
+	class MainClass //Grading Students
 	{
 		public static void Main (string [] args)
 		{
-			string [] tokens_x1 = Console.ReadLine ().Split (' ');
-			int x1 = Convert.ToInt32 (tokens_x1 [0]);
-			int v1 = Convert.ToInt32 (tokens_x1 [1]);
-			int x2 = Convert.ToInt32 (tokens_x1 [2]);
-			int v2 = Convert.ToInt32 (tokens_x1 [3]);
-
-			if (((x1 >= x2 && v1 <= v2) || (x1 <= x2 && v1 >= v2))
-				&& !(x1 != x2 && v1 == v2)
-				&& (Math.Abs (x1 - x2) % Math.Abs (v1 - v2) == 0)) {
-				Console.WriteLine ("YES");
-			} else {
-				Console.WriteLine ("NO");
+			int n = Convert.ToInt32 (Console.ReadLine ());
+			var grades = new int [n];
+			for (int a0 = 0; a0 < n; a0++) 
+			{
+				int grade = Convert.ToInt32 (Console.ReadLine ());
+				grades [a0] = grade;
 			}
-
-
-
+			int i = 0;
+			foreach(int x in grades)
+			{
+				if(x > 35)
+				{
+					if((x % 5) > 2)
+					{
+						while((grades[i] % 5) > 0)
+						{
+							grades[i]+=1;
+						}
+					}
+				}
+				i++;
+			}
+			foreach (var x in grades) 
+			{
+				Console.WriteLine (x);
+			}
 		}
 	}
 }
